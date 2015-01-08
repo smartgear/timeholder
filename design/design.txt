@@ -1,0 +1,11 @@
+Data Dictionary:
+
+Task:
+id:int
+parent:int
+name:char(25)
+desc:char(100)
+importance: char(15) IMPORTANCE|UNIMPORTANCE
+added: datetime
+undated:datetime
+finished:datatime

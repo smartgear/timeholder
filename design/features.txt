@@ -1,0 +1,11 @@
+1. To Do List
+	1)add a task.
+	2)drop a task.
+	3)list task by add time.
+	4)list unfinished task.
+	5)list task by importance.
+	6)list task by priority.
+	7)finish a task.
+	8)update priority of a task.
+	9)update importance of a task.
+
