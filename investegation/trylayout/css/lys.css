@@ -1,0 +1,88 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+.main{
+    display: block;
+    width: 900px;
+    height:900px;
+    margin: 0px auto;
+    padding: 0px;
+    border: 0px;
+    background-color: beige;
+}
+
+.header{
+    display: block;
+    width: 900px;
+    height:100px;
+    margin: 0px auto;
+    padding: 0px;
+    border: 0px;
+    background-color: palegoldenrod;
+}
+
+.content{
+    display: block;
+    width: 900px;
+    height:700px;
+    margin: 0px auto;
+    padding: 0px;
+    border: 0px;
+    background-color: cornsilk;
+}
+
+.footer{
+    display: block;
+    width: 900px;
+    height:100px;
+    margin: 0px auto;
+    padding: 0px;
+    border: 0px;
+    background-color: palegoldenrod;
+}
+
+.leftaside{
+    display: block;
+    width: 150px;
+    height:700px;
+    margin: 0px auto;
+    padding: 0px;
+    border: 0px;
+    float: left;
+    background-color: aquamarine;
+}
+
+.rightaside{
+    display: block;
+    width: 150px;
+    height:700px;
+    margin: 0px auto;
+    padding: 0px;
+    border: 0px;
+    float: right;
+    background-color: aquamarine;
+}
+
+.centerbox{
+    display: block;
+    width: 600px;
+    height:700px;
+    margin: 0px auto;
+    padding: 0px;
+    border: 0px;
+    float: left;
+    background-color: burlywood;
+}
+
+.taskboxodd{
+    background-color:#CCF;
+    margin-bottom: 10px;
+}
+
+.taskboxeven{
+    background-color:#FF9;
+    margin-bottom: 10px;
+}
