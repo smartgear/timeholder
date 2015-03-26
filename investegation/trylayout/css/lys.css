@@ -77,6 +77,19 @@ body{
     background-color: burlywood;
 }
 
+.taskContent{
+    height:400px;
+    overflow:auto;
+}
+
+.editarea{
+    display:block;
+    float:left;
+    width:600px;
+    margin: 0px;
+    padding: 0px;
+}
+
 .taskboxodd{
     background-color:#CCF;
     margin-bottom: 10px;
@@ -86,3 +99,4 @@ body{
     background-color:#FF9;
     margin-bottom: 10px;
 }
+
