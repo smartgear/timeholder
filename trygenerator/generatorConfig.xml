@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry
+		location="C:/Users/Administrator/.m2/repository/mysql/mysql-connector-java/5.1.37/mysql-connector-java-5.1.37.jar" />
+	<context id="context1">
+		<!-- plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" / -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/toy" userId="root"
+			password="12345678" />
+		<javaModelGenerator targetPackage="com.toy.model.generate"
+			targetProject="trygenerator" />
+		<sqlMapGenerator targetPackage="com.toy.data.generate"
+			targetProject="trygenerator" />
+		<javaClientGenerator targetPackage="com.toy.data.generate"
+			targetProject="trygenerator" type="XMLMAPPER" />
+		<!-- <table schema="toy" tableName="%"> -->
+		<!-- table schema="toy" tableName="id_sequence">
+			<generatedKey column="id" sqlStatement="JDBC" />
+		</table-->
+		
+		<!-- table schema="toy" tableName="user_coin">
+		</table-->
+		<!-- table schema="toy" tableName="gift" /-->
+		<!-- table schema="toy" tableName="user_token" /-->
+		<!-- table schema="toy" tableName="image"/-->
+		<!-- table schema="toy" tableName="gift_image"/-->
+		<table schema="toy" tableName="survey"/>
+		
+	</context>
+</generatorConfiguration>

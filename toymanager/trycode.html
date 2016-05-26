@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery-1.11.3.js"></script>
+</head>
+<body>
+<script>
+    var code = "a317*0d7b9*d2004"
+    $.post("http://xy.xyzcl.xyz/register.php",
+            {"reginvcode": code, "action": "reginvcodeck"},
+            function (data, status) {
+                if(data!="\<script language=\"JavaScript1.2\"\>parent.retmsg_invcode('1');\<\/script\>"){
+                    window.alert(code);
+                    return;
+
+                }
+            });
+</script>
+</body>
+</html>

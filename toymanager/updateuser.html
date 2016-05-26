@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+    <script src="js/jquery-1.11.3.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/dsmm.js"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">DAISHUMAMA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">设置</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" ng-app="userApp" ng-controller="userCtrl">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="listuser.html#">用户</a></li>
+                <li><a href="listpartner.html#">合作伙伴</a></li>
+                <li><a href="">问卷</a></li>
+                <li><a href="listgift.html#">礼品</a></li>
+                <li><a href="">订单</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">update</h1>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">用户名</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="用户名" ng-model="user.username" ng-disabled="true">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">密码</label>
+
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" placeholder="密码" ng-model="user.password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">确认密码</label>
+
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" placeholder="确认密码" ng-model="confirm_password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">email</label>
+
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control" placeholder="email" ng-model="user.email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">手机</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="手机" ng-model="user.mobile">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">角色</label>
+
+                    <div class="col-sm-4">
+                        <select class="form-control" ng-model="user.role">
+                            <option value="admin">admin</option>
+                            <option value="operator">operator</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default" ng-click="onUpdateUser()">修改</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <label class="label-warning" ng-hide="warnhide">{{warnmessage}}</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var app = angular.module('userApp', []);
+    app.controller('userCtrl', function ($scope, $window, $location) {
+        $scope.userId = $location.search().userId;
+        $scope.confirm_password = "";
+//        $scope.updateUrl = 'http://localhost:18080/trymvc/lys/user/update';
+//        $scope.getUrl = 'http://localhost:18080/trymvc/lys/user/get';
+        $scope.updateUrl = userUrl.updateUrl;
+        $scope.getUrl = userUrl.getUrl;
+        $scope.warnhide = true;
+        $scope.warnmessage = "";
+        $scope.user ="";
+
+        $.post($scope.getUrl,
+                {
+                    "id": $scope.userId
+                },
+                function (data, status) {
+                    if (data.success) {
+                        $scope.$apply(function () {
+                            $scope.user = data.data;
+                            $scope.confirm_password = data.data.password;
+                        });
+                    } else {
+                        $scope.$apply(function () {
+                            $scope.warnhide = false;
+                            $scope.warnmessage = data.desc;
+                        });
+                    }
+                }
+        );
+
+        $scope.handleUpdateResult = function(data, status){
+            if (data.success) {
+                $window.location.href = "listuser.html";
+            } else {
+                $scope.$apply(function () {
+                    $scope.warnhide = false;
+                    $scope.warnmessage = data.desc;
+                });
+            }
+        }
+
+        $scope.onUpdateUser = function () {
+            updateUser($scope.user, $scope.handleUpdateResult);
+        };
+    });
+</script>
+
+</body>
+</html>

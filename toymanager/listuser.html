@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+    <script src="js/jquery-1.11.3.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/dsmm.js"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">DAISHUMAMA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">设置</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" ng-app="userApp" ng-controller="userCtrl">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="listuser.html#">用户</a></li>
+                <li><a href="listpartner.html#">合作伙伴</a></li>
+                <li><a href="">问卷</a></li>
+                <li><a href="listgift.html#">礼品</a></li>
+                <li><a href="">订单</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">list</h1>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+
+                        <div class="col-xs-18 col-sm-8 row">
+                            <div>
+                                <button type="button" class="btn btn-default" ng-disabled="newDisable"
+                                        ng-click="newUser()">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" ng-disabled="editDisable"
+                                        ng-click="editUser()">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" ng-disabled="disableDisable"
+                                        ng-click="disableUser()">
+                                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" ng-disabled="activeDisable"
+                                        ng-click="activeUser()">
+                                    <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-2">
+
+                            <div aria-label="..." class="">
+                                <label class="navbar-right">{{page}}/{{pagecount}}</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-2">
+                            <div>
+                                <a href="#" class="btn btn-default" ng-click="previousPage()"><</a>
+                                <a href="#" class="btn btn-default" ng-click="nextPage()">></a>
+                            </div>
+                        </div>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="user in users">
+                        <td><input type="checkbox" ng-model="selected[$index]" ng-click="setCheckBox($index)"/></td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.mobile}}</td>
+                        <td>{{user.role}}</td>
+                        <td>{{user.state}}</td>
+                        <td>{{user.createTime|date:yymmdd:hhmmss}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var app = angular.module('userApp', []);
+    app.controller('userCtrl', function ($scope, $window) {
+        $scope.pagecount = 1;
+        $scope.page = 1;
+        $scope.pagesize = 20;
+//        $scope.listUrl = 'http://localhost:18080/trymvc/lys/user/list';
+//        $scope.countUrl = 'http://localhost:18080/trymvc/lys/user/count';
+        $scope.listUrl = userUrl.listUrl;
+        $scope.countUrl = userUrl.countUrl;
+
+        $scope.newDisable = true;
+        $scope.editDisable = false;
+        $scope.activeDisable = false;
+        $scope.disableDisable = false;
+        $scope.selected = [$scope.pagesize];
+        $scope.current = -1;
+
+
+        $scope.setCheckBox = function (idx) {
+            $scope.current = idx;
+            for (i = 0; i < $scope.pagesize; i++) {
+                if (i != idx) {
+                    $scope.selected[i] = false;
+                } else {
+                    if ($scope.selected[i]) {
+                        $scope.current = i;
+                    } else {
+                        $scope.current = -1;
+                    }
+                }
+            }
+            $scope.setOpButton($scope.current);
+        }
+        $scope.loadCount = function () {
+            $.post($scope.countUrl,
+                    {"count": $scope.pagesize, "page": $scope.page},
+                    function (data, status) {
+                        if (data.success == true) {
+                            $scope.$apply(function () {
+                                $scope.pagecount = Math.floor((data.data - 1) / $scope.pagesize)
+                                + 1;
+                            });
+                        }
+                    }
+            )
+        };
+        $scope.loadUsers = function () {
+            $scope.loadCount();
+            $.post($scope.listUrl,
+                    {"count": $scope.pagesize, "page": $scope.page},
+                    function (data, status) {
+                        if (data.success == true) {
+                            $scope.$apply(function () {
+                                $scope.users = data.data;
+                                $scope.setCheckBox(-1);
+                            });
+                        }
+                    }
+            );
+        };
+        $scope.previousPage = function () {
+            $scope.loadCount();
+            if ($scope.page > 1) {
+                $scope.page = $scope.page - 1;
+            }
+            $scope.loadUsers();
+        };
+
+        $scope.nextPage = function () {
+            $scope.loadCount();
+            if ($scope.page < $scope.pagecount) {
+                $scope.page = $scope.page + 1;
+            }
+            $scope.loadUsers();
+        };
+
+
+        $scope.setOpButton = function (current) {
+            if (current == -1) {
+                $scope.newDisable = false;
+                $scope.editDisable = true;
+                $scope.activeDisable = true;
+                $scope.disableDisable = true;
+            } else {
+                $scope.newDisable = false;
+                $scope.editDisable = false;
+                if ($scope.users[current].state == userState.active) {
+                    $scope.activeDisable = true;
+                    $scope.disableDisable = false;
+                } else {
+                    $scope.activeDisable = false;
+                    $scope.disableDisable = true;
+                }
+            }
+        }
+
+        $scope.newUser = function () {
+            $window.location = "createuser.html";
+        }
+
+        $scope.editUser = function () {
+            $window.location = "updateuser.html#?userId=" + $scope.users[$scope.current].userId;
+        };
+
+        $scope.disableUser = function () {
+            $scope.users[$scope.current].state = userState.disable;
+            updateUser($scope.users[$scope.current], function (data, status) {
+                $scope.loadUsers();
+            });
+        };
+
+        $scope.activeUser = function () {
+            $scope.users[$scope.current].state = userState.active;
+            updateUser($scope.users[$scope.current], function (data, status) {
+                $scope.loadUsers();
+            });
+        };
+
+
+        $scope.setCheckBox(-1);
+        $scope.loadCount();
+        $scope.loadUsers();
+
+
+    });
+</script>
+
+</body>
+</html>

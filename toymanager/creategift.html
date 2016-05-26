@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+    <script src="js/jquery-1.11.3.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/ng-file-upload.js"></script>
+    <script src="js/dsmm.js"></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">DAISHUMAMA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">设置</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" ng-app="giftApp" ng-controller="giftCtrl">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="listuser.html#">用户</a></li>
+                <li><a href="listpartner.html#">合作伙伴</a></li>
+                <li><a href="">问卷</a></li>
+                <li class="active"><a href="listgift.html#">礼品</a></li>
+                <li><a href="">订单</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">create</h1>
+
+
+            <form class="form-horizontal" name="giftForm">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">提供商</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"  ng-model="partnerId">
+                            <option  ng-repeat="partner in partners" value="{{partner.id}}">{{partner.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">名称</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="名称" ng-model="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">描述</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="描述" ng-model="desc">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">数量</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="数量" ng-model="count">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">价格</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="价格" ng-model="price">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">展示图片</label>
+
+                    <div class="col-sm-4">
+                        <input type="file" ngf-select ng-model="picFile" name="file"
+                               accept="image/*" ngf-max-size="2MB" required
+                               ngf-model-invalid="errorFiles">
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-4">
+                        <img ng-show="giftForm.file.$valid" ngf-thumbnail="picFile" class="thumb" width="200px" height="200px"/> <button ng-click="picFile = null" ng-show="picFile">Remove</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default" ng-click="uploadPic(picFile)">创建</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <label class="label-warning" ng-hide="warnhide">{{warnmessage}}</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var app = angular.module('giftApp', ['ngFileUpload']);
+    app.controller('giftCtrl',['$scope', 'Upload', '$timeout', '$window', function ($scope,Upload, $timeout, $window) {
+        $scope.name = "";
+        $scope.desc = "";
+        $scope.count = "";
+        $scope.price = "";
+        $scope.available = "false";
+        $scope.partners = "";
+        $scope.partnerId = "";
+
+        $scope.listPartnerUrl = partnerUrl.listUrl;
+        $scope.createUrl = giftUrl.createUrl;
+
+        $scope.loadPartners = function () {
+            $.post($scope.listPartnerUrl,
+                    {"count": 100, "page": 1},
+                    function (data, status) {
+                        if (data.success == true) {
+                            $scope.$apply(function () {
+                                $scope.partners = data.data;
+                                $scope.partnerId =  $scope.partners[0].id;
+                            });
+                        }
+                    }
+            );
+        };
+
+        $scope.loadPartners();
+
+        $scope.uploadPic = function(file) {
+            file.upload = Upload.upload({
+                url: $scope.createUrl,
+                data: {"file": file, "parternerId": $scope.partnerId, "name": $scope.name,"desc": $scope.desc, "count":  $scope.count,"price":$scope.price}
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    file.result = response.data;
+                    $window.location.href = "listgift.html";
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                // Math.min is to fix IE which reports 200% sometimes
+                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            });
+        };
+
+//        $scope.uploadPic = function(file) {
+//            $.post($scope.createUrl,
+//                    {
+//                        "name": $scope.name,
+//                        "desc": $scope.desc,
+//                        "linkman": $scope.linkman,
+//                        "mail": $scope.email,
+//                        "mobile": $scope.mobile,
+//                        "telephone": $scope.telephone,
+//                        "address": $scope.address,
+//                        "category": $scope.category
+//                    },
+//                    function (data, status) {
+//                        if (data.success) {
+//                            $window.location.href = "listgift.html";
+//                        } else {
+//                            $scope.$apply(function () {
+//                                $scope.warnhide = false;
+//                                $scope.warnmessage = data.desc;
+//                            });
+//                        }
+//                    }
+//            );
+//        };
+    }]);
+</script>
+
+</body>
+</html>

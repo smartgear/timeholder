@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+    <script src="js/jquery-1.11.3.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/dsmm.js"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">DAISHUMAMA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">设置</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" ng-app="userApp" ng-controller="userCtrl">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="listuser.html#">用户</a></li>
+                <li class="active"><a href="listpartner.html#">合作伙伴</a></li>
+                <li><a href="">问卷</a></li>
+                <li><a href="listgift.html#">礼品</a></li>
+                <li><a href="">订单</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">create</h1>
+
+            <!--div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+
+                        <div class="col-xs-18 col-sm-8 row">
+                            <div>
+                                <button type="button" class="btn btn-default" ng-disabled="newDisable">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" ng-disabled="editDisable">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" ng-disabled="disableDisable">
+                                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" ng-disabled="activeDisable">
+                                    <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-2">
+
+                            <div aria-label="..." class="">
+                                <label class="navbar-right">{{page}}/{{pagecount}}</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-2">
+                            <div>
+                                <a href="#" class="btn btn-default" ng-click="previousPage()"><</a>
+                                <a href="#" class="btn btn-default" ng-click="nextPage()">></a>
+                            </div>
+                        </div>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="user in users">
+                        <td><input type="checkbox" ng-model="selected[$index]" ng-click="setCheckBox($index)"/></td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.role}}</td>
+                        <td>{{user.state}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div-->
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">名称</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="名称" ng-model="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">描述</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="描述" ng-model="desc">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">联系人</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="联系人" ng-model="linkman">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">email</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="email" ng-model="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">手机</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="手机" ng-model="mobile">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">电话</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="电话" ng-model="telephone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">地址</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="地址" ng-model="address">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">类别</label>
+
+                    <div class="col-sm-4">
+                        <select class="form-control"  ng-model="category">
+                            <option value="survey_provider">问卷提供</option>
+                            <option value="gift_provider">礼品合作</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default" ng-click="createPartner()">创建</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <label class="label-warning" ng-hide="warnhide">{{warnmessage}}</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var app = angular.module('userApp', []);
+    app.controller('userCtrl', function ($scope, $window) {
+        $scope.name = "";
+        $scope.desc = "";
+        $scope.linkman = "";
+        $scope.email = "";
+        $scope.mobile = "";
+        $scope.telephone = "";
+        $scope.address = "";
+        $scope.category = "survey_provider";
+        $scope.createUrl = partnerUrl.createUrl;
+        $scope.warnhide = true;
+        $scope.warnmessage = "";
+
+        $scope.createPartner = function () {
+            $.post($scope.createUrl,
+                    {
+                        "name": $scope.name,
+                        "desc": $scope.desc,
+                        "linkman": $scope.linkman,
+                        "mail": $scope.email,
+                        "mobile": $scope.mobile,
+                        "telephone": $scope.telephone,
+                        "address": $scope.address,
+                        "category": $scope.category
+                    },
+                    function (data, status) {
+                        if (data.success) {
+                            $window.location.href = "listpartner.html";
+                        } else {
+                            $scope.$apply(function () {
+                                $scope.warnhide = false;
+                                $scope.warnmessage = data.desc;
+                            });
+                        }
+                    }
+            );
+        };
+    });
+</script>
+
+</body>
+</html>
