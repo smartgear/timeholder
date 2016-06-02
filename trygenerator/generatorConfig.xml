@@ -25,7 +25,8 @@
 		<!-- table schema="toy" tableName="user_token" /-->
 		<!-- table schema="toy" tableName="image"/-->
 		<!-- table schema="toy" tableName="gift_image"/-->
-		<table schema="toy" tableName="survey"/>
+		<!-- table schema="toy" tableName="survey"/-->
+		<table schema="toy" tableName="task"/>
 		
 	</context>
 </generatorConfiguration>

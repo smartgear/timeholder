@@ -87,6 +87,11 @@
 		<property name="mapperInterface" value="com.toy.data.generate.GiftImageMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
+	
+	<bean id="taskMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.toy.data.extend.TaskMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
 
 	<bean id="toyConfig" class="com.toy.service.ToyConfig">
 		<property name="imgPath" value="d:/image/" />
