@@ -13,6 +13,7 @@ import com.toy.model.extend.Limit;
 import com.toy.model.extend.TaskExample;
 import com.toy.model.generate.IdSequence;
 import com.toy.model.generate.Task;
+import com.toy.service.OrderCondition;
 import com.toy.service.TaskService;
 
 @Service("taskService")
@@ -73,6 +74,21 @@ public class TaskServiceImpl implements TaskService {
 		example.createCriteria().andTitleLike("%"+title+"%");
 		List<Task> result = taskMapper.selectByExample(example);
 		return result;
+	}
+
+	public List<Task> listAllTask(int count, int page, OrderCondition order) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Task> listTaskByStatus(int count, int page, int status, OrderCondition order) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Task> listTaskByTime(int count, int page, Date begin, Date end, OrderCondition order) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
