@@ -9,9 +9,11 @@ public interface TaskService {
 	/**
 	 * @param count
 	 * @param page
+	 * @param order
+	 * @param utoken
 	 * @return
 	 */
-	public List<Task> listAllTask(int count, int page, OrderCondition order);	
+	public List<Task> listAllTask(int count, int page, OrderCondition order, String utoken);	
 	
 	/**
 	 * @param count
@@ -19,7 +21,7 @@ public interface TaskService {
 	 * @param status
 	 * @return
 	 */
-	public List<Task> listTaskByStatus(int count, int page, int status, OrderCondition order);	
+	public List<Task> listTaskByStatus(int count, int page, int status, OrderCondition order, String utoken);	
 	
 	/**
 	 * @param count
@@ -28,26 +30,26 @@ public interface TaskService {
 	 * @param end
 	 * @return
 	 */
-	public List<Task> listTaskByTime(int count, int page, Date begin, Date end, OrderCondition order);
+	public List<Task> listTaskByTime(int count, int page, Date begin, Date end, OrderCondition order, String utoken);
 	/**
 	 * @return
 	 */
-	public int getTaskCount();	
+	public int getTaskCount(String utoken);	
 	/**
 	 * @param task
 	 * @return
 	 */
-	public Task addTask(Task task);
+	public Task addTask(Task task, String utoken);
 	
 	/**
 	 * @param task
 	 * @return
 	 */
-	public Task updateTask(Task task);
+	public Task updateTask(Task task, String utoken);
 	
 	/**
 	 * @param title
 	 * @return
 	 */
-	public List<Task> findTaskByTitle(String title);
+	public List<Task> findTaskByTitle(String title, String utoken);
 }

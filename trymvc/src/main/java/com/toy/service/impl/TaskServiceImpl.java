@@ -15,10 +15,21 @@ import com.toy.model.generate.IdSequence;
 import com.toy.model.generate.Task;
 import com.toy.service.OrderCondition;
 import com.toy.service.TaskService;
+import com.toy.service.UserService;
 
 @Service("taskService")
 public class TaskServiceImpl implements TaskService {
 	private IdSequenceMapper idSequenceMapper;
+	private UserService userService;
+	public UserService getUserService() {
+		return userService;
+	}
+
+	@Resource
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
 	public IdSequenceMapper getIdSequenceMapper() {
 		return idSequenceMapper;
 	}
@@ -40,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
 		this.taskMapper = taskMapper;
 	}
 
-	public List<Task> listTask(int count, int page) {
+	public List<Task> listTask(int count, int page, String utoken) {
 		Limit limit = new Limit();
 		limit.setOffset(count*(page-1));
 		limit.setRowcount(count);
@@ -50,11 +61,11 @@ public class TaskServiceImpl implements TaskService {
 		return result;
 	}
 
-	public int getTaskCount() {
+	public int getTaskCount(String utoken) {
 		return taskMapper.countByExample(null);
 	}
 
-	public Task addTask(Task task) {
+	public Task addTask(Task task, String utoken) {
 		IdSequence id = new IdSequence();
 		idSequenceMapper.insert(id);
 		String taskID = "task"+id.getId();
@@ -64,29 +75,29 @@ public class TaskServiceImpl implements TaskService {
 		return task;
 	}
 
-	public Task updateTask(Task task) {
+	public Task updateTask(Task task, String utoken) {
 		taskMapper.updateByPrimaryKey(task);
 		return task;
 	}
 
-	public List<Task> findTaskByTitle(String title) {
+	public List<Task> findTaskByTitle(String title, String utoken) {
 		TaskExample example = new TaskExample();
 		example.createCriteria().andTitleLike("%"+title+"%");
 		List<Task> result = taskMapper.selectByExample(example);
 		return result;
 	}
 
-	public List<Task> listAllTask(int count, int page, OrderCondition order) {
+	public List<Task> listAllTask(int count, int page, OrderCondition order, String utoken) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public List<Task> listTaskByStatus(int count, int page, int status, OrderCondition order) {
+	public List<Task> listTaskByStatus(int count, int page, int status, OrderCondition order, String utoken) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public List<Task> listTaskByTime(int count, int page, Date begin, Date end, OrderCondition order) {
+	public List<Task> listTaskByTime(int count, int page, Date begin, Date end, OrderCondition order, String utoken) {
 		// TODO Auto-generated method stub
 		return null;
 	}
