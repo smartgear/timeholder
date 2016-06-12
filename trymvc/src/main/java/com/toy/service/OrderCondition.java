@@ -24,4 +24,8 @@ public class OrderCondition {
 		this.field = field;
 		this.isAsc = isAsc;
 	}
+	
+	public String  toString(){
+		return field + " " + (isAsc? "ASC":"DESC");
+	}
 }

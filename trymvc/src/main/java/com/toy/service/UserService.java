@@ -24,6 +24,13 @@ public interface UserService {
 	 */
 	public UserToken login(String username, String password) throws UserNotFoundException, InvalidPasswordException, ToyException;
 
+	
+	/**
+	 * @param token
+	 * @return
+	 */
+	public User getUserWithToken(String token);
+	
 	/**
 	 * @param user
 	 * @return
